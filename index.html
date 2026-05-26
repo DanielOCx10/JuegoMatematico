@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MatemáticasYA - Entrena tu agilidad mental numérica</title>
+  <meta name="description"
+    content="Una aplicación moderna y gamificada para practicar sumas y restas rápidas. Diseñada para auditores y profesionales de los números.">
+  <!-- Google Fonts para tipografía premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Space+Grotesk:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+  <!-- Contenedor principal de la aplicación con efecto de fondo dinámico -->
+  <main id="app-container" class="app-container">
+    <!-- Botón de cambio de tema Claro/Oscuro -->
+    <button id="btn-theme-toggle" class="btn-theme-toggle" title="Cambiar tema (Claro/Oscuro)">🌓</button>
+
+    <div class="background-glow bg-glow-blue"></div>
+    <div class="background-glow bg-glow-pink"></div>
+
+    <!-- PANTALLA 1: CONFIGURACIÓN (INICIO) -->
+    <section id="screen-config" class="screen active">
+      <header class="app-header">
+        <h1 class="app-title"><span class="glow-text">Matemáticas</span><span class="accent-text">YA</span></h1>
+        <p class="app-subtitle">Mantén tu mente afilada y veloz con números</p>
+      </header>
+
+      <div class="glass-card config-panel">
+        <h2 class="section-title">Configura tu Entrenamiento</h2>
+
+        <!-- Selección de Operaciones -->
+        <div class="config-group">
+          <label class="group-label">Operaciones</label>
+          <div class="options-grid">
+            <button type="button" class="btn-select active" id="opt-sum" data-type="sum">
+              <span class="btn-icon">+</span> Sumas
+            </button>
+            <button type="button" class="btn-select active" id="opt-sub" data-type="sub">
+              <span class="btn-icon">−</span> Restas
+            </button>
+          </div>
+        </div>
+
+        <!-- Selección de Dificultad -->
+        <div class="config-group">
+          <label class="group-label">Nivel de Dificultad</label>
+          <div class="difficulty-selector">
+            <input type="radio" id="diff-easy" name="difficulty" value="easy">
+            <label for="diff-easy" class="difficulty-card">
+              <span class="diff-title">Fácil</span>
+              <span class="diff-desc">Números de 1 dígito (e.g. 5 + 8)</span>
+            </label>
+
+            <input type="radio" id="diff-medium" name="difficulty" value="medium" checked>
+            <label for="diff-medium" class="difficulty-card">
+              <span class="diff-title">Medio</span>
+              <span class="diff-desc">Números de 2 dígitos (e.g. 20 + 39)</span>
+            </label>
+
+            <input type="radio" id="diff-auditor" name="difficulty" value="auditor">
+            <label for="diff-auditor" class="difficulty-card">
+              <span class="diff-title">Auditor</span>
+              <span class="diff-desc">Números grandes de 3 y 4 dígitos</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Ajustes de Sonido -->
+        <div class="config-group inline-group">
+          <label class="switch-label">
+            <span>🔊 Sonidos de Acierto / Error</span>
+            <input type="checkbox" id="toggle-sfx" checked>
+            <span class="slider"></span>
+          </label>
+          <label class="switch-label">
+            <span>🎵 Música Reactiva de Fondo</span>
+            <input type="checkbox" id="toggle-music" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <!-- Botón de Inicio -->
+        <button id="btn-start" class="btn-primary btn-glow">
+          ¡Iniciar Entrenamiento!
+        </button>
+      </div>
+
+      <!-- PANEL DE RESULTADOS (Se muestra al finalizar un entrenamiento) -->
+      <div id="results-panel" class="results-panel" style="display: none; margin-top: 32px; width: 100%;">
+        <header class="results-header">
+          <h2 class="results-title">Último Entrenamiento</h2>
+          <p class="results-subtitle" id="results-date">Hoy te has ejercitado como un campeón</p>
+        </header>
+
+        <div class="results-container">
+          <!-- Tarjeta de Logro Principal -->
+          <div class="glass-card main-achievement-card">
+            <div class="achievement-icon">🏆</div>
+            <h3 class="achievement-label">OPERACIONES RESUELTAS</h3>
+            <div class="giant-counter" id="result-total-solved">0</div>
+            <p class="achievement-desc" id="achievement-badge-name">Categoría: Principiante de Cuentas</p>
+          </div>
+
+          <!-- Tarjetas secundarias de estadísticas en grid -->
+          <div class="stats-grid">
+            <div class="glass-card stat-sub-card">
+              <span class="stat-icon">📈</span>
+              <span class="stat-name">Precisión</span>
+              <span class="stat-value" id="result-accuracy">0%</span>
+              <span class="stat-detail" id="result-ratio">0 de 0</span>
+            </div>
+
+            <div class="glass-card stat-sub-card">
+              <span class="stat-icon">⚡</span>
+              <span class="stat-name">Velocidad</span>
+              <span class="stat-value" id="result-speed">0 <small>op/m</small></span>
+              <span class="stat-detail">Operaciones por minuto</span>
+            </div>
+
+            <div class="glass-card stat-sub-card">
+              <span class="stat-icon">🔥</span>
+              <span class="stat-name">Racha Máxima</span>
+              <span class="stat-value" id="result-max-streak">0</span>
+              <span class="stat-detail">Respuestas correctas consecutivas</span>
+            </div>
+
+            <div class="glass-card stat-sub-card">
+              <span class="stat-icon">⏱️</span>
+              <span class="stat-name">Tiempo Total</span>
+              <span class="stat-value" id="result-duration">0:00</span>
+              <span class="stat-detail">Duración de la sesión</span>
+            </div>
+          </div>
+
+          <!-- Panel para compartir/presumir -->
+          <div class="glass-card share-panel">
+            <h4 class="share-title">¡Presume tu entrenamiento con otros!</h4>
+            <p class="share-text">Demuestra a tus compañeros o jefes que estás fino con las cuentas hoy.</p>
+            <div class="share-box">
+              <textarea id="share-text-area" readonly rows="2"></textarea>
+              <button id="btn-copy" class="btn-primary">
+                📋 Copiar Logro
+              </button>
+            </div>
+            <div id="copy-toast" class="toast-message">¡Copiado al portapapeles!</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="config-footer">
+        <p>💡 Tip: En el juego, escribe rápido y presiona <strong>Enter</strong>. Presiona <strong>Esc</strong> para
+          terminar.</p>
+      </footer>
+    </section>
+
+
+    <!-- PANTALLA 2: JUEGO (GAMEPLAY) -->
+    <section id="screen-game" class="screen">
+      <!-- Barra superior de estado -->
+      <div class="game-header">
+        <div class="stat-badge" id="badge-streak">
+          <span class="emoji">🔥</span> Racha: <strong id="game-streak">0</strong>
+        </div>
+        <div class="stat-badge" id="badge-timer">
+          <span class="emoji">⏱️</span> Tiempo: <strong id="game-timer">0:00</strong>
+        </div>
+        <div class="stat-badge" id="badge-solved">
+          <span class="emoji">✅</span> Resueltos: <strong id="game-solved">0</strong>
+        </div>
+      </div>
+
+      <!-- Tablero del ejercicio matemático -->
+      <div class="math-board glass-card" id="math-board-card">
+        <!-- Indicador de tipo de dificultad actual -->
+        <span class="game-level-tag" id="game-level-tag">Dificultad: Media</span>
+
+        <!-- Layout horizontal de juego con la gráfica de enfoque a la derecha -->
+        <div class="math-game-layout">
+          <!-- Contenedor vertical de operación al estilo hoja de cálculo o auditoría -->
+          <div class="math-problem-container">
+            <div class="math-grid">
+              <div class="math-grid-cell"></div>
+              <div class="math-row" id="num-1">--</div>
+
+              <div class="math-grid-cell">
+                <span id="math-operator" class="math-operator">+</span>
+              </div>
+              <div class="math-row" id="num-2">--</div>
+            </div>
+            <div class="math-line"></div>
+
+            <div class="math-input-wrapper">
+              <input type="text" id="answer-input" autocomplete="off" inputmode="numeric" placeholder="?"
+                pattern="-?[0-9]*">
+            </div>
+          </div>
+
+          <!-- Indicador de Enfoque Binaural (Gráfica vertical sutil) -->
+          <div class="focus-gauge-container" title="Frecuencia Binaural (Nivel de Enfoque)">
+            <div class="focus-gauge-track">
+              <div class="focus-gauge-bar" id="focus-gauge-bar"></div>
+            </div>
+            <div class="focus-gauge-label" id="focus-gauge-label">8Hz</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="game-footer">
+        <button id="btn-exit" class="btn-secondary">
+          Finalizar Sesión (Esc)
+        </button>
+      </div>
+    </section>
+
+
+
+    <!-- MODAL DE PAUSA -->
+    <div id="modal-pause" class="modal-overlay">
+      <div class="glass-card modal-content">
+        <span class="modal-icon">⏸️</span>
+        <h3 class="modal-title">Entrenamiento Pausado</h3>
+        <p class="modal-desc">Tómate un respiro. Tu progreso está a salvo.</p>
+
+        <div class="modal-stats">
+          <div class="modal-stat">
+            <span class="modal-stat-label">Resueltos:</span>
+            <strong id="pause-solved" class="modal-stat-value">0</strong>
+          </div>
+          <div class="modal-stat">
+            <span class="modal-stat-label">Racha:</span>
+            <strong id="pause-streak" class="modal-stat-value">0</strong>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-resume" class="btn-primary btn-glow">
+            Continuar (Enter)
+          </button>
+          <button id="btn-pause-exit" class="btn-secondary">
+            Terminar y Ver Récord
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="./sound.js"></script>
+  <script src="./app.js"></script>
+</body>
+
+</html>
