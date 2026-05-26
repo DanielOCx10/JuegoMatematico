@@ -388,10 +388,16 @@ body {
 }
 
 /* --- PANTALLA 2: JUEGO (GAMEPLAY) --- */
-.game-header {
+#screen-game .game-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  opacity: 0.35;
+  transition: opacity var(--transition-smooth);
+}
+
+#screen-game .game-header:hover {
+  opacity: 0.8;
 }
 
 .stat-badge {
@@ -408,15 +414,49 @@ body {
   gap: 8px;
 }
 
+#screen-game .stat-badge {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  padding: 10px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 1.05rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .stat-badge strong {
   font-family: var(--font-display);
   font-size: 1.2rem;
   color: #ffffff;
 }
 
-#badge-streak strong {
-  color: #ff9900;
-  text-shadow: 0 0 10px rgba(255, 153, 0, 0.3);
+#screen-game .stat-badge strong {
+  font-size: 1.25rem;
+}
+
+#screen-game #badge-streak strong {
+  color: var(--accent-magenta);
+  text-shadow: var(--glow-magenta);
+}
+
+#screen-game #badge-solved strong {
+  color: var(--accent-cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+#screen-game #badge-timer strong {
+  color: var(--text-primary);
+}
+
+/* En tema claro desactivar text-shadows de los números */
+body.light-theme #screen-game #badge-streak strong,
+body.light-theme #screen-game #badge-solved strong {
+  text-shadow: none;
 }
 
 /* Tablero de Matemáticas (Estilo Audit / Sumadora vertical) */
@@ -431,18 +471,24 @@ body {
   margin-bottom: 24px;
 }
 
+.game-level-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
 .game-level-tag {
-  position: absolute;
-  top: 16px;
-  left: 20px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 4px 10px;
-  border-radius: 6px;
+  opacity: 0.35;
+  transition: var(--transition-smooth);
+}
+
+.game-level-tag:hover {
+  opacity: 0.8;
 }
 
 /* Contenedor de operaciones alineadas al centro */
@@ -572,9 +618,33 @@ body {
   -moz-appearance: textfield;
 }
 
-.game-footer {
+#screen-game .game-footer {
   display: flex;
   justify-content: center;
+  opacity: 0.35;
+  transition: opacity var(--transition-smooth);
+}
+
+#screen-game .game-footer:hover {
+  opacity: 0.8;
+}
+
+#screen-game #btn-exit {
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: var(--font-body);
+}
+
+#screen-game #btn-exit:hover {
+  color: var(--text-primary);
+  background: transparent;
+  border-color: transparent;
 }
 
 /* Efectos visuales de respuesta */
@@ -599,7 +669,7 @@ body {
   50% {
     border-color: var(--success-color);
     box-shadow: var(--glow-success);
-    transform: scale(1.02);
+    transform: scale(1.03);
   }
 
   100% {
@@ -625,12 +695,13 @@ body {
 }
 
 /* --- DISEÑO DE MAQUETA DE JUEGO & GRÁFICA BINAURAL --- */
-.math-game-layout {
+.game-board-wrapper {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 32px;
+  align-items: center;
+  gap: 24px;
   width: 100%;
+  margin-bottom: 24px;
 }
 
 .focus-gauge-container {
@@ -1296,11 +1367,11 @@ body.light-theme .modal-stat {
     margin-bottom: 16px;
   }
 
+  .game-level-wrapper {
+    margin-bottom: 8px;
+  }
   .game-level-tag {
-    top: 12px;
-    left: 12px;
-    font-size: 0.7rem;
-    padding: 2px 6px;
+    font-size: 0.65rem;
   }
 
   .math-problem-container {
@@ -1333,18 +1404,19 @@ body.light-theme .modal-stat {
   }
 
   /* Gráfica de enfoque en móvil */
-  .math-game-layout {
-    gap: 16px;
-  }
-
-  .focus-gauge-track {
-    height: 120px;
-    width: 6px;
+  .game-board-wrapper {
+    gap: 12px;
+    margin-bottom: 16px;
   }
 
   .focus-gauge-container {
     gap: 8px;
     width: 35px;
+  }
+
+  .focus-gauge-track {
+    height: 120px;
+    width: 6px;
   }
 
   .focus-gauge-label {

@@ -167,23 +167,24 @@
       <!-- Barra superior de estado -->
       <div class="game-header">
         <div class="stat-badge" id="badge-streak">
-          <span class="emoji">🔥</span> Racha: <strong id="game-streak">0</strong>
+          Racha: <strong id="game-streak">0</strong>
         </div>
         <div class="stat-badge" id="badge-timer">
-          <span class="emoji">⏱️</span> Tiempo: <strong id="game-timer">0:00</strong>
+          Tiempo: <strong id="game-timer">0:00</strong>
         </div>
         <div class="stat-badge" id="badge-solved">
-          <span class="emoji">✅</span> Resueltos: <strong id="game-solved">0</strong>
+          Resueltos: <strong id="game-solved">0</strong>
         </div>
       </div>
 
-      <!-- Tablero del ejercicio matemático -->
-      <div class="math-board glass-card" id="math-board-card">
-        <!-- Indicador de tipo de dificultad actual -->
+      <!-- Indicador de tipo de dificultad actual (fuera del tablero, atenuado) -->
+      <div class="game-level-wrapper">
         <span class="game-level-tag" id="game-level-tag">Dificultad: Media</span>
+      </div>
 
-        <!-- Layout horizontal de juego con la gráfica de enfoque a la derecha -->
-        <div class="math-game-layout">
+      <div class="game-board-wrapper">
+        <!-- Tablero del ejercicio matemático -->
+        <div class="math-board glass-card" id="math-board-card">
           <!-- Contenedor vertical de operación al estilo hoja de cálculo o auditoría -->
           <div class="math-problem-container">
             <div class="math-grid">
@@ -202,14 +203,14 @@
                 pattern="-?[0-9]*">
             </div>
           </div>
+        </div>
 
-          <!-- Indicador de Enfoque Binaural (Gráfica vertical sutil) -->
-          <div class="focus-gauge-container" title="Frecuencia Binaural (Nivel de Enfoque)">
-            <div class="focus-gauge-track">
-              <div class="focus-gauge-bar" id="focus-gauge-bar"></div>
-            </div>
-            <div class="focus-gauge-label" id="focus-gauge-label">8Hz</div>
+        <!-- Indicador de Enfoque Binaural (Gráfica vertical sutil fuera del cuadro) -->
+        <div class="focus-gauge-container" title="Frecuencia Binaural (Nivel de Enfoque)">
+          <div class="focus-gauge-track">
+            <div class="focus-gauge-bar" id="focus-gauge-bar"></div>
           </div>
+          <div class="focus-gauge-label" id="focus-gauge-label">8Hz</div>
         </div>
       </div>
 
