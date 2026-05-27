@@ -1,10 +1,10 @@
-/* --- SISTEMA DE DISEÑO & VARIABLES DE COLOR (NEON DARK MODE) --- */
+/* --- SISTEMA DE DISEÑO & VARIABLES DE COLOR (CLEAN DARK MODE) --- */
 :root {
   --bg-primary: #080c14;
   --bg-card: rgba(17, 25, 40, 0.65);
   --border-color: rgba(255, 255, 255, 0.08);
 
-  /* Paleta Neon */
+  /* Paleta */
   --accent-cyan: #00f2fe;
   --accent-magenta: #ff007f;
   --accent-blue: #4facfe;
@@ -17,12 +17,17 @@
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'Outfit', sans-serif;
 
-  /* Transiciones */
+  /* Transiciones y Sombras Sutiles */
   --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --glow-cyan: 0 0 15px rgba(0, 242, 254, 0.4);
-  --glow-magenta: 0 0 15px rgba(255, 0, 127, 0.4);
-  --glow-success: 0 0 20px rgba(0, 255, 135, 0.5);
-  --glow-error: 0 0 20px rgba(255, 51, 102, 0.5);
+  --glow-cyan: 0 4px 12px rgba(0, 242, 254, 0.15);
+  --glow-magenta: 0 4px 12px rgba(255, 0, 127, 0.15);
+  --glow-success: 0 4px 12px rgba(0, 255, 135, 0.2);
+  --glow-error: 0 4px 12px rgba(255, 51, 102, 0.2);
+
+  /* Variables de Botón Primario (Simple y Profesional) */
+  --btn-primary-bg: #2563eb;
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: #1d4ed8;
 }
 
 /* --- RESET & GENERAL --- */
@@ -59,39 +64,7 @@ body {
 }
 
 .background-glow {
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  filter: blur(150px);
-  opacity: 0.15;
-  pointer-events: none;
-  z-index: -1;
-  transition: var(--transition-smooth);
-}
-
-.bg-glow-blue {
-  background: var(--accent-blue);
-  top: 10%;
-  left: 10%;
-  animation: floatGlow 15s infinite alternate ease-in-out;
-}
-
-.bg-glow-pink {
-  background: var(--accent-magenta);
-  bottom: 10%;
-  right: 10%;
-  animation: floatGlow 15s infinite alternate-reverse ease-in-out;
-}
-
-@keyframes floatGlow {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  100% {
-    transform: translate(60px, 40px) scale(1.2);
-  }
+  display: none;
 }
 
 /* --- ESTILOS GLASSMORPHISM --- */
@@ -128,8 +101,8 @@ body {
 
 /* --- BOTONES Y ENTRADAS (ESTILOS MODERNOS) --- */
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-  color: #030712;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   border: none;
   border-radius: 14px;
   padding: 16px 28px;
@@ -146,8 +119,8 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--glow-cyan);
-  filter: brightness(1.1);
+  background: var(--btn-primary-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-primary:active {
@@ -155,7 +128,7 @@ body {
 }
 
 .btn-glow {
-  box-shadow: 0 4px 20px rgba(0, 242, 254, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-secondary {
@@ -191,14 +164,11 @@ body {
 }
 
 .glow-text {
-  background: linear-gradient(to right, #ffffff, var(--accent-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ffffff;
 }
 
 .accent-text {
   color: var(--accent-magenta);
-  text-shadow: 0 0 10px rgba(255, 0, 127, 0.3);
 }
 
 .app-subtitle {
@@ -267,12 +237,10 @@ body {
   background: rgba(0, 242, 254, 0.08);
   border-color: var(--accent-cyan);
   color: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
 }
 
 .btn-select.active .btn-icon {
   color: var(--accent-cyan);
-  text-shadow: var(--glow-cyan);
 }
 
 .btn-icon {
@@ -309,7 +277,6 @@ body {
 .difficulty-selector input[type="radio"]:checked+.difficulty-card {
   background: rgba(255, 0, 127, 0.05);
   border-color: var(--accent-magenta);
-  box-shadow: 0 0 15px rgba(255, 0, 127, 0.08);
 }
 
 .diff-title {
@@ -373,7 +340,6 @@ body {
 
 .switch-label input:checked+.slider {
   background-color: var(--accent-cyan);
-  box-shadow: var(--glow-cyan);
 }
 
 .switch-label input:checked+.slider::before {
@@ -391,9 +357,12 @@ body {
 #screen-game .game-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  opacity: 0.35;
+  opacity: 0.50;
   transition: opacity var(--transition-smooth);
+  padding-left: 60px;  /* Espacio para el botón ☰ fijo */
+  padding-right: 60px; /* Espacio para el botón 🌙 fijo */
 }
 
 #screen-game .game-header:hover {
@@ -441,12 +410,10 @@ body {
 
 #screen-game #badge-streak strong {
   color: var(--accent-magenta);
-  text-shadow: var(--glow-magenta);
 }
 
 #screen-game #badge-solved strong {
   color: var(--accent-cyan);
-  text-shadow: var(--glow-cyan);
 }
 
 #screen-game #badge-timer strong {
@@ -501,6 +468,52 @@ body.light-theme #screen-game #badge-solved strong {
   position: relative;
 }
 
+/* Marcador de Intentos */
+.attempts-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+.attempt-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 2.5px solid rgba(255, 255, 255, 0.2);
+  transition: var(--transition-smooth);
+}
+
+.attempt-dot.active {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+  box-shadow: 0 0 10px rgba(0, 255, 135, 0.4);
+}
+
+.attempt-dot.warning {
+  background-color: #ff9900;
+  border-color: #ff9900;
+  box-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
+}
+
+body.light-theme .attempt-dot {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+body.light-theme .attempt-dot.active {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+  box-shadow: none;
+}
+
+body.light-theme .attempt-dot.warning {
+  background-color: #ff9900;
+  border-color: #ff9900;
+  box-shadow: none;
+}
+
 /* Rejilla de 2 columnas para alineación de dígitos (Col 1: Operador, Col 2: Números) */
 .math-grid {
   display: grid;
@@ -540,7 +553,6 @@ body.light-theme #screen-game #badge-solved strong {
   /* Tamaño proporcional gigante */
   color: var(--accent-magenta);
   font-weight: 800;
-  text-shadow: var(--glow-magenta);
   line-height: 1;
   position: static;
   transform: none;
@@ -548,8 +560,8 @@ body.light-theme #screen-game #badge-solved strong {
 
 /* Colores de borde y acentos según el tipo de operación (Verde para suma, Rojo para resta) */
 .math-board.op-sum {
-  border-color: var(--success-color) !important;
-  box-shadow: 0 0 35px rgba(0, 255, 135, 0.25) !important;
+  border-color: var(--success-color);
+  box-shadow: 0 0 35px rgba(0, 255, 135, 0.25);
 }
 
 .math-board.op-sum .math-operator {
@@ -558,8 +570,8 @@ body.light-theme #screen-game #badge-solved strong {
 }
 
 .math-board.op-sub {
-  border-color: var(--error-color) !important;
-  box-shadow: 0 0 35px rgba(255, 51, 102, 0.25) !important;
+  border-color: var(--error-color);
+  box-shadow: 0 0 35px rgba(255, 51, 102, 0.25);
 }
 
 .math-board.op-sub .math-operator {
@@ -573,7 +585,6 @@ body.light-theme #screen-game #badge-solved strong {
   background-color: var(--text-primary);
   border-radius: 3px;
   margin: 15px 0;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .math-input-wrapper {
@@ -603,7 +614,6 @@ body.light-theme #screen-game #badge-solved strong {
 
 #answer-input:focus {
   border-color: var(--accent-cyan);
-  box-shadow: var(--glow-cyan);
   background: rgba(0, 242, 254, 0.02);
 }
 
@@ -618,63 +628,82 @@ body.light-theme #screen-game #badge-solved strong {
   -moz-appearance: textfield;
 }
 
-#screen-game .game-footer {
-  display: flex;
-  justify-content: center;
-  opacity: 0.35;
-  transition: opacity var(--transition-smooth);
+/* Pantalla de juego: contenedor relativo para el botón flotante */
+#screen-game {
+  position: relative;
 }
 
-#screen-game .game-footer:hover {
-  opacity: 0.8;
-}
-
-#screen-game #btn-exit {
-  background: transparent;
-  border: none;
-  padding: 8px 16px;
-  font-size: 0.9rem;
+/* Botón flotante de opciones (top-left del juego) */
+.btn-game-options {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  width: 44px;
+  height: 44px;
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   color: var(--text-secondary);
-  text-decoration: underline;
+  font-size: 1.3rem;
   cursor: pointer;
-  font-weight: 500;
-  font-family: var(--font-body);
+  display: none; /* Solo visible durante el juego */
+  align-items: center;
+  justify-content: center;
+  opacity: 0.50;
+  transition: opacity var(--transition-smooth), background var(--transition-smooth), color var(--transition-smooth);
+  z-index: 100;
 }
 
-#screen-game #btn-exit:hover {
+.btn-game-options:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
   color: var(--text-primary);
-  background: transparent;
-  border-color: transparent;
 }
 
 /* Efectos visuales de respuesta */
-.success-flash {
-  animation: successPulse 0.4s ease;
+.success-flash-sum {
+  animation: successPulseSum 0.25s ease;
+}
+
+.success-flash-sub {
+  animation: successPulseSub 0.25s ease;
 }
 
 .error-shake {
-  animation: errorShake 0.4s ease;
+  animation: errorShake 0.25s ease;
 }
 
 .warning-shake {
-  animation: warningShake 0.4s ease;
+  animation: warningShake 0.25s ease;
 }
 
-@keyframes successPulse {
+@keyframes successPulseSum {
   0% {
-    border-color: var(--border-color);
-    box-shadow: none;
   }
 
   50% {
     border-color: var(--success-color);
-    box-shadow: var(--glow-success);
-    transform: scale(1.03);
+    box-shadow: 0 0 45px rgba(0, 255, 135, 0.65);
+    transform: scale(1.05);
   }
 
   100% {
-    border-color: var(--border-color);
-    box-shadow: none;
+  }
+}
+
+@keyframes successPulseSub {
+  0% {
+  }
+
+  50% {
+    border-color: var(--error-color);
+    box-shadow: 0 0 45px rgba(255, 51, 102, 0.65);
+    transform: scale(1.05);
+  }
+
+  100% {
   }
 }
 
@@ -690,7 +719,7 @@ body.light-theme #screen-game #badge-solved strong {
   }
   50% {
     border-color: #ff9900;
-    box-shadow: 0 0 20px rgba(255, 153, 0, 0.4);
+    box-shadow: 0 0 30px rgba(255, 153, 0, 0.5);
   }
 }
 
@@ -699,9 +728,17 @@ body.light-theme #screen-game #badge-solved strong {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   width: 100%;
   margin-bottom: 24px;
+}
+
+/* Contrapeso invisible a la izquierda = mismo ancho que la barra Hz,
+   para que el tablero quede perfectamente centrado */
+.game-board-wrapper::before {
+  content: '';
+  width: 50px;
+  flex-shrink: 0;
 }
 
 .focus-gauge-container {
@@ -709,20 +746,21 @@ body.light-theme #screen-game #badge-solved strong {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  opacity: 0.15; /* Atenuada al lado derecho por defecto */
+  opacity: 0.50;
   transition: var(--transition-smooth);
   width: 50px;
+  flex-shrink: 0;
 }
 
 .focus-gauge-track {
   width: 8px;
   height: 200px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.20);
   border-radius: 4px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.40);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .focus-gauge-bar {
@@ -733,7 +771,6 @@ body.light-theme #screen-game #badge-solved strong {
   position: absolute;
   bottom: 0;
   transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
 }
 
 .focus-gauge-label {
@@ -762,8 +799,8 @@ body.light-theme #screen-game #badge-solved strong {
   }
 
   50% {
-    border-color: var(--error-color);
-    box-shadow: var(--glow-error);
+    border-color: #ff9900;
+    box-shadow: 0 0 35px rgba(255, 153, 0, 0.6);
   }
 }
 
@@ -777,9 +814,7 @@ body.light-theme #screen-game #badge-solved strong {
   font-family: var(--font-display);
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(to right, #ffffff, var(--accent-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ffffff;
 }
 
 .results-subtitle {
@@ -798,20 +833,6 @@ body.light-theme #screen-game #badge-solved strong {
 .main-achievement-card {
   text-align: center;
   padding: 40px;
-  border-color: rgba(0, 242, 254, 0.2);
-  background: linear-gradient(135deg, rgba(17, 25, 40, 0.8), rgba(0, 242, 254, 0.05));
-  position: relative;
-  overflow: hidden;
-}
-
-.main-achievement-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(to right, var(--accent-cyan), var(--accent-magenta));
 }
 
 .achievement-icon {
@@ -845,10 +866,7 @@ body.light-theme #screen-game #badge-solved strong {
   font-weight: 900;
   line-height: 1;
   margin: 12px 0;
-  background: linear-gradient(to right, #ffffff, var(--accent-cyan), #ffffff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0px 0px 20px rgba(0, 242, 254, 0.25));
+  color: #ffffff;
 }
 
 .achievement-desc {
@@ -1034,7 +1052,7 @@ body.light-theme #screen-game #badge-solved strong {
 .btn-theme-toggle:hover {
   transform: scale(1.1) translateY(-2px);
   border-color: var(--accent-cyan);
-  box-shadow: var(--glow-cyan);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn-theme-toggle:active {
@@ -1077,7 +1095,7 @@ body.light-theme #screen-game #badge-solved strong {
 
 .modal-overlay.active .modal-content {
   transform: scale(1);
-  box-shadow: var(--glow-cyan);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 .modal-icon {
@@ -1163,8 +1181,13 @@ body.light-theme {
   --accent-blue: #0077b6;
   --success-color: #2a9d8f;
   --error-color: #e63946;
-  --glow-cyan: 0 0 15px rgba(0, 119, 182, 0.2);
-  --glow-magenta: 0 0 15px rgba(201, 24, 74, 0.2);
+  --glow-cyan: 0 4px 12px rgba(0, 119, 182, 0.1);
+  --glow-magenta: 0 4px 12px rgba(201, 24, 74, 0.1);
+
+  /* Variables de Botón Primario en Tema Claro */
+  --btn-primary-bg: #0077b6;
+  --btn-primary-text: #ffffff;
+  --btn-primary-hover: #005f92;
 }
 
 body.light-theme .background-glow {
@@ -1172,9 +1195,7 @@ body.light-theme .background-glow {
 }
 
 body.light-theme .glow-text {
-  background: linear-gradient(to right, #1a202c, var(--accent-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #1a202c;
 }
 
 body.light-theme .math-row,
@@ -1183,17 +1204,13 @@ body.light-theme .stat-badge strong,
 body.light-theme .modal-title,
 body.light-theme .modal-stat-value,
 body.light-theme .stat-value,
-body.light-theme .giant-counter {
+body.light-theme .giant-counter,
+body.light-theme .results-title {
   color: #1a202c;
   text-shadow: none;
 }
 
-body.light-theme .giant-counter {
-  background: linear-gradient(to right, #1a202c, var(--accent-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: none;
-}
+
 
 body.light-theme #answer-input {
   background: rgba(255, 255, 255, 0.85);
@@ -1293,6 +1310,14 @@ body.light-theme .modal-stat {
     font-size: 1.1rem;
   }
 
+  .btn-game-options {
+    top: 12px;
+    left: 12px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
   .app-title {
     font-size: 2.2rem;
     margin-bottom: 4px;
@@ -1349,6 +1374,12 @@ body.light-theme .modal-stat {
   /* Gameplay en móvil */
   .game-header {
     margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding-left: 52px;
+    padding-right: 52px;
+    row-gap: 6px;
   }
 
   .stat-badge {
@@ -1362,9 +1393,11 @@ body.light-theme .modal-stat {
   }
 
   .math-board {
-    min-height: 380px;
+    min-height: 320px;
     padding: 20px 12px;
     margin-bottom: 16px;
+    width: 100%; /* Ocupa todo el ancho disponible en móvil */
+    box-sizing: border-box;
   }
 
   .game-level-wrapper {
@@ -1375,7 +1408,8 @@ body.light-theme .modal-stat {
   }
 
   .math-problem-container {
-    min-width: 260px;
+    min-width: unset;  /* Sin ancho mínimo fijo en móvil */
+    width: 100%;
     margin: 10px 0;
   }
 
@@ -1403,24 +1437,16 @@ body.light-theme .modal-stat {
     border-radius: 10px;
   }
 
-  /* Gráfica de enfoque en móvil */
+  /* Gráfica de enfoque en móvil: ocultar para ganar espacio */
   .game-board-wrapper {
-    gap: 12px;
     margin-bottom: 16px;
+    padding: 0 12px; /* Evita que la caja toque los bordes laterales */
   }
 
-  .focus-gauge-container {
-    gap: 8px;
-    width: 35px;
-  }
-
-  .focus-gauge-track {
-    height: 120px;
-    width: 6px;
-  }
-
-  .focus-gauge-label {
-    font-size: 0.6rem;
+  /* Ocultar barra Hz Y su contrapeso en móvil para centrar el tablero */
+  .focus-gauge-container,
+  .game-board-wrapper::before {
+    display: none;
   }
 
   /* Resultados en móvil */

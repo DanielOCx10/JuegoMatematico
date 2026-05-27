@@ -55,6 +55,7 @@ const DOM = {
   operatorEl: document.getElementById('math-operator'),
   answerInput: document.getElementById('answer-input'),
   mathBoardCard: document.getElementById('math-board-card'),
+  attemptsIndicator: document.getElementById('attempts-indicator'),
   btnExit: document.getElementById('btn-exit'),
   
   // Modal de Pausa
@@ -259,6 +260,9 @@ function startGame() {
     sound.startMusic();
   }
   
+  // Mostrar botón de opciones flotante
+  DOM.btnExit.style.display = 'flex';
+
   // Siguiente problema y foco inmediato
   nextProblem();
   setTimeout(forceInputFocus, 50);
@@ -374,6 +378,9 @@ function stopGame() {
   const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   DOM.resultsDate.textContent = `Sesión del ${new Date().toLocaleDateString('es-ES', dateOptions)}`;
   
+  // Ocultar botón de opciones flotante
+  DOM.btnExit.style.display = 'none';
+
   // Cambiar pantalla a la de configuración
   switchScreen('screen-config');
   
@@ -471,11 +478,27 @@ function nextProblem() {
   DOM.num2El.textContent = formatNumber(n2);
   DOM.operatorEl.textContent = state.opSymbol;
   DOM.answerInput.value = '';
+  updateAttemptsUI();
 }
 
 // Formatear números con puntos de miles para lectura de auditoría
 function formatNumber(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// Actualizar la interfaz del marcador de intentos
+function updateAttemptsUI() {
+  if (!DOM.attemptsIndicator) return;
+  const dots = DOM.attemptsIndicator.querySelectorAll('.attempt-dot');
+  dots.forEach((dot, idx) => {
+    if (idx <= state.chancesLeft) {
+      dot.classList.add('active');
+      dot.classList.remove('warning');
+    } else {
+      dot.classList.remove('active');
+      dot.classList.add('warning');
+    }
+  });
 }
 
 // --- GESTIÓN DE ENTRADA Y TECLADO ---
@@ -540,8 +563,12 @@ function verifyAnswer() {
     // SFX
     sound.playCorrect();
     
-    // Retroalimentación visual
-    flashBoard('success-flash');
+    // Retroalimentación visual según la operación (Verde para sumas, Rojo para restas)
+    if (state.opSymbol === '+') {
+      flashBoard('success-flash-sum');
+    } else {
+      flashBoard('success-flash-sub');
+    }
     
     // Actualizar widgets
     DOM.gameSolved.textContent = state.solvedCount;
@@ -561,6 +588,7 @@ function verifyAnswer() {
     // Si responde rápido (menos de 3 segundos) y le quedan oportunidades, le damos reintento
     if (timeTaken < 3.0 && state.chancesLeft > 0) {
       state.chancesLeft--;
+      updateAttemptsUI();
       
       // Sonido de advertencia corto y sutil
       sound.playWarning();
@@ -623,7 +651,7 @@ function verifyAnswer() {
 
 // Aplica clases temporales de animación al tablero de matemáticas
 function flashBoard(className) {
-  DOM.mathBoardCard.classList.remove('success-flash', 'error-shake');
+  DOM.mathBoardCard.classList.remove('success-flash-sum', 'success-flash-sub', 'error-shake', 'warning-shake');
   // Forzar reflujo para reiniciar animación en CSS
   void DOM.mathBoardCard.offsetWidth;
   DOM.mathBoardCard.classList.add(className);

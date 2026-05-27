@@ -23,8 +23,8 @@
     <!-- Botón de cambio de tema Claro/Oscuro -->
     <button id="btn-theme-toggle" class="btn-theme-toggle" title="Cambiar tema (Claro/Oscuro)">🌓</button>
 
-    <div class="background-glow bg-glow-blue"></div>
-    <div class="background-glow bg-glow-pink"></div>
+    <!-- Botón de opciones del juego (flotante top-left, visible solo durante el juego) -->
+    <button id="btn-exit" class="btn-game-options" title="Opciones (Esc)">☰</button>
 
     <!-- PANTALLA 1: CONFIGURACIÓN (INICIO) -->
     <section id="screen-config" class="screen active">
@@ -143,7 +143,7 @@
           <!-- Panel para compartir/presumir -->
           <div class="glass-card share-panel">
             <h4 class="share-title">¡Presume tu entrenamiento con otros!</h4>
-            <p class="share-text">Demuestra a tus compañeros o jefes que estás fino con las cuentas hoy.</p>
+            <p class="share-text">Demuestra que estás fino con las cuentas hoy.</p>
             <div class="share-box">
               <textarea id="share-text-area" readonly rows="2"></textarea>
               <button id="btn-copy" class="btn-primary">
@@ -156,8 +156,7 @@
       </div>
 
       <footer class="config-footer">
-        <p>💡 Tip: En el juego, escribe rápido y presiona <strong>Enter</strong>. Presiona <strong>Esc</strong> para
-          terminar.</p>
+        <p> Juego de Dany.</p>
       </footer>
     </section>
 
@@ -168,9 +167,13 @@
       <div class="game-header">
         <div class="stat-badge" id="badge-streak">
           Racha: <strong id="game-streak">0</strong>
+          <div class="attempts-indicator" id="attempts-indicator" title="Intentos para la operación actual">
+            <span class="attempt-dot active"></span>
+            <span class="attempt-dot active"></span>
+          </div>
         </div>
         <div class="stat-badge" id="badge-timer">
-          Tiempo: <strong id="game-timer">0:00</strong>
+          <strong id="game-timer">0:00</strong>
         </div>
         <div class="stat-badge" id="badge-solved">
           Resueltos: <strong id="game-solved">0</strong>
@@ -205,7 +208,7 @@
           </div>
         </div>
 
-        <!-- Indicador de Enfoque Binaural (Gráfica vertical sutil fuera del cuadro) -->
+        <!-- Indicador de Enfoque Binaural (barra lateral derecha, fuera del cuadro) -->
         <div class="focus-gauge-container" title="Frecuencia Binaural (Nivel de Enfoque)">
           <div class="focus-gauge-track">
             <div class="focus-gauge-bar" id="focus-gauge-bar"></div>
@@ -214,11 +217,7 @@
         </div>
       </div>
 
-      <div class="game-footer">
-        <button id="btn-exit" class="btn-secondary">
-          Finalizar Sesión (Esc)
-        </button>
-      </div>
+
     </section>
 
 
