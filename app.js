@@ -25,6 +25,8 @@ const state = {
   num2: 0,
   opSymbol: '+',
   chancesLeft: 1, // Intentos permitidos por operación
+  recentResults: [],
+  recentPairs: [],
 };
 
 const DOM = {
@@ -225,6 +227,8 @@ function startGame() {
   state.maxStreak = 0;
   state.focusPoints = 0;
   state.consecutiveErrors = 0;
+  state.recentResults = [];
+  state.recentPairs = [];
   
   // Ocultar modal de pausa y habilitar entrada
   DOM.modalPause.classList.remove('active');
@@ -389,45 +393,75 @@ function nextProblem() {
   
   let n1 = 0;
   let n2 = 0;
+  let answer = 0;
+  let attempts = 0;
+  const maxAttempts = 25; // Evitar bucles infinitos
   
-  if (state.difficulty === 'easy') {
-    // 1 dígito (1 al 9)
-    n1 = Math.floor(Math.random() * 9) + 1;
-    n2 = Math.floor(Math.random() * 9) + 1;
-  } 
-  else if (state.difficulty === 'medium') {
-    // 2 dígitos (10 al 99)
-    n1 = Math.floor(Math.random() * 90) + 10;
-    n2 = Math.floor(Math.random() * 90) + 10;
-  } 
-  else {
-    // Auditor: mezcla de números de 3 y 4 dígitos
-    const isBig = Math.random() > 0.4; // 60% 3 dígitos, 40% 4 dígitos
-    if (isBig) {
-      n1 = Math.floor(Math.random() * 9000) + 1000;
-      n2 = Math.floor(Math.random() * 9000) + 1000;
-    } else {
-      n1 = Math.floor(Math.random() * 900) + 100;
-      n2 = Math.floor(Math.random() * 900) + 100;
+  do {
+    if (state.difficulty === 'easy') {
+      // 1 dígito (1 al 9)
+      n1 = Math.floor(Math.random() * 9) + 1;
+      n2 = Math.floor(Math.random() * 9) + 1;
+    } 
+    else if (state.difficulty === 'medium') {
+      // 2 dígitos (10 al 99)
+      n1 = Math.floor(Math.random() * 90) + 10;
+      n2 = Math.floor(Math.random() * 90) + 10;
+    } 
+    else {
+      // Auditor: mezcla de números de 3 y 4 dígitos
+      const isBig = Math.random() > 0.4; // 60% 3 dígitos, 40% 4 dígitos
+      if (isBig) {
+        n1 = Math.floor(Math.random() * 9000) + 1000;
+        n2 = Math.floor(Math.random() * 9000) + 1000;
+      } else {
+        n1 = Math.floor(Math.random() * 900) + 100;
+        n2 = Math.floor(Math.random() * 900) + 100;
+      }
     }
-  }
-  
-  // Si es resta, evitar números negativos en TODOS los niveles para mantener el flujo de velocidad
-  if (op === 'sub' && n1 < n2) {
-    [n1, n2] = [n2, n1];
-  }
+    
+    // Si es resta, evitar números negativos en TODOS los niveles para mantener el flujo de velocidad
+    if (op === 'sub' && n1 < n2) {
+      [n1, n2] = [n2, n1];
+    }
+    
+    answer = (op === 'sum') ? (n1 + n2) : (n1 - n2);
+    attempts++;
+    
+    // Criterios de filtrado para asegurar variedad:
+    // 1. Evitar que el resultado final sea igual a los últimos 6 resultados.
+    // 2. Evitar que la combinación exacta de operandos esté en las últimas 5 combinaciones.
+    // 3. Evitar que n1 o n2 sean idénticos al n1 o n2 de la última pregunta.
+    const isRepeatedResult = state.recentResults.includes(answer);
+    const isRepeatedPair = state.recentPairs.some(p => p[0] === n1 && p[1] === n2);
+    const isSameAsLast = n1 === state.num1 || n2 === state.num2;
+    
+    if (!isRepeatedResult && !isRepeatedPair && !isSameAsLast) {
+      break;
+    }
+  } while (attempts < maxAttempts);
   
   state.num1 = n1;
   state.num2 = n2;
+  state.currentAnswer = answer;
+  
+  // Guardar en el historial de recientes
+  state.recentResults.push(answer);
+  if (state.recentResults.length > 6) {
+    state.recentResults.shift();
+  }
+  
+  state.recentPairs.push([n1, n2]);
+  if (state.recentPairs.length > 5) {
+    state.recentPairs.shift();
+  }
   
   if (op === 'sum') {
     state.opSymbol = '+';
-    state.currentAnswer = n1 + n2;
     DOM.mathBoardCard.classList.add('op-sum');
     DOM.mathBoardCard.classList.remove('op-sub');
   } else {
     state.opSymbol = '−';
-    state.currentAnswer = n1 - n2;
     DOM.mathBoardCard.classList.add('op-sub');
     DOM.mathBoardCard.classList.remove('op-sum');
   }
